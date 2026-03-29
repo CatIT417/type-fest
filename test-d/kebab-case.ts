@@ -79,20 +79,42 @@ expectType<'fo-o2bar'>(kebabFromNumberInTheMiddleNoSplitOnNumbersEdgeCase2);
 const kebabFromNumberInTheMiddleNoSplitOnNumbersEdgeCase3: KebabCase<'FOO22Bar'> = 'foo22-bar';
 expectType<'foo22-bar'>(kebabFromNumberInTheMiddleNoSplitOnNumbersEdgeCase3);
 
+// Punctuation
 declare const withPunctuation: KebabCase<'onDialog:close'>;
 expectType<'on-dialog:close'>(withPunctuation);
+
+declare const withPunctuationAndSplit: KebabCase<'onDialog:close', {splitOnPunctuation: true}>;
+expectType<'on-dialog-close'>(withPunctuationAndSplit);
 
 declare const withPunctuation2: KebabCase<'foo-bar>>baz'>;
 expectType<'foo-bar>>baz'>(withPunctuation2);
 
+declare const withPunctuationAndSplit2: KebabCase<'foo-bar>>baz', {splitOnPunctuation: true}>;
+expectType<'foo-bar-baz'>(withPunctuationAndSplit2);
+
 declare const withPunctuation3: KebabCase<'card::after'>;
 expectType<'card::after'>(withPunctuation3);
+
+declare const withPunctuationAndSplit3: KebabCase<'card::after', {splitOnPunctuation: true}>;
+expectType<'card-after'>(withPunctuationAndSplit3);
 
 declare const withPunctuation4: KebabCase<'div.card::after'>;
 expectType<'div.card::after'>(withPunctuation4);
 
+declare const withPunctuationAndSplit4: KebabCase<'div.card::after', {splitOnPunctuation: true}>;
+expectType<'div-card-after'>(withPunctuationAndSplit4);
+
 declare const withPunctuationAndNumber: KebabCase<'foo-bar::01'>;
 expectType<'foo-bar::01'>(withPunctuationAndNumber);
 
-declare const withPunctuationAndNumber2: KebabCase<'foo-bar::01', {splitOnNumbers: true}>;
-expectType<'foo-bar::-01'>(withPunctuationAndNumber2);
+declare const withPunctuationSplitAndNumber: KebabCase<'foo-bar::01', {splitOnPunctuation: true}>;
+expectType<'foo-bar-01'>(withPunctuationSplitAndNumber);
+
+declare const withPunctuationSplitAndNumberSplit: KebabCase<'foo-bar::01', {splitOnPunctuation: true; splitOnNumbers: true}>;
+expectType<'foo-bar-01'>(withPunctuationSplitAndNumberSplit);
+
+declare const withPunctuationAndNumberSplit2: KebabCase<'foo-bar::01', {splitOnNumbers: true}>;
+expectType<'foo-bar::-01'>(withPunctuationAndNumberSplit2);
+
+declare const withPunctuationSplitAndNumberSplit2: KebabCase<'foo-bar::01', {splitOnNumbers: true; splitOnPunctuation: true}>;
+expectType<'foo-bar-01'>(withPunctuationSplitAndNumberSplit2);
