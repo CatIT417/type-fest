@@ -115,20 +115,38 @@ expectType<`foo${string}`>(stringPart);
 declare const withPunctuation: DelimiterCase<'onDialog:close', '#'>;
 expectType<'on#dialog:close'>(withPunctuation);
 
+declare const withPunctuationAndSplit: DelimiterCase<'onDialog:close', '#', {splitOnPunctuation: true}>;
+expectType<'on#dialog#close'>(withPunctuationAndSplit);
+
 declare const withPunctuation2: DelimiterCase<'foo-bar>>baz', '#'>;
 expectType<'foo#bar>>baz'>(withPunctuation2);
+
+declare const withPunctuationAndSplit2: DelimiterCase<'foo-bar>>baz', '#', {splitOnPunctuation: true}>;
+expectType<'foo#bar#baz'>(withPunctuationAndSplit2);
 
 declare const withPunctuation3: DelimiterCase<'card::after', '#'>;
 expectType<'card::after'>(withPunctuation3);
 
+declare const withPunctuationAndSplit3: DelimiterCase<'card::after', '#', {splitOnPunctuation: true}>;
+expectType<'card#after'>(withPunctuationAndSplit3);
+
 declare const withPunctuation4: DelimiterCase<'div.card::after', '#'>;
 expectType<'div.card::after'>(withPunctuation4);
+
+declare const withPunctuationAndSplit4: DelimiterCase<'div.card::after', '#', {splitOnPunctuation: true}>;
+expectType<'div#card#after'>(withPunctuationAndSplit4);
 
 declare const withPunctuationAndNumber: DelimiterCase<'foo-bar::01', '#'>;
 expectType<'foo#bar::01'>(withPunctuationAndNumber);
 
 declare const withPunctuationAndNumber2: DelimiterCase<'foo-bar::01', '#', {splitOnNumbers: true}>;
 expectType<'foo#bar::#01'>(withPunctuationAndNumber2);
+
+declare const withPunctuationSplitAndNumber: DelimiterCase<'foo-bar::01', '#', {splitOnPunctuation: true}>;
+expectType<'foo#bar#01'>(withPunctuationSplitAndNumber);
+
+declare const withPunctuationSplitAndNumberSplit: DelimiterCase<'foo-bar::01', '#', {splitOnPunctuation: true; splitOnNumbers: true}>;
+expectType<'foo#bar#01'>(withPunctuationSplitAndNumberSplit);
 
 // Verifying example
 type OddCasedProperties<T> = {

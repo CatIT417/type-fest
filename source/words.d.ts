@@ -97,7 +97,7 @@ type Words6 = Words<'hello:world', {splitOnPunctuation: true}>;
 type Words7 = Words<'hello:world', {splitOnPunctuation: false}>;
 //=> ['hello', ':world']
 
-type Words8 = Words<'hello:world', {splitOnPunctuation: true}>;
+type Words8 = Words<'hello::world', {splitOnPunctuation: true}>;
 //=> ['hello', 'world']
 ```
 

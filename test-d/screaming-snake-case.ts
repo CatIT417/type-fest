@@ -86,17 +86,35 @@ expectType<[]>(nonStringFromNonString);
 declare const withPunctuation: ScreamingSnakeCase<'onDialog:close'>;
 expectType<'ON_DIALOG:CLOSE'>(withPunctuation);
 
+declare const withPunctuationSplit: ScreamingSnakeCase<'onDialog:close', {splitOnPunctuation: true}>;
+expectType<'ON_DIALOG_CLOSE'>(withPunctuationSplit);
+
 declare const withPunctuation2: ScreamingSnakeCase<'foo-bar>>baz'>;
 expectType<'FOO_BAR>>BAZ'>(withPunctuation2);
+
+declare const withPunctuationSplit2: ScreamingSnakeCase<'foo-bar>>baz', {splitOnPunctuation: true}>;
+expectType<'FOO_BAR_BAZ'>(withPunctuationSplit2);
 
 declare const withPunctuation3: ScreamingSnakeCase<'card::after'>;
 expectType<'CARD::AFTER'>(withPunctuation3);
 
+declare const withPunctuationSplit3: ScreamingSnakeCase<'card::after', {splitOnPunctuation: true}>;
+expectType<'CARD_AFTER'>(withPunctuationSplit3);
+
 declare const withPunctuation4: ScreamingSnakeCase<'div.card::after'>;
 expectType<'DIV.CARD::AFTER'>(withPunctuation4);
+
+declare const withPunctuationSplit4: ScreamingSnakeCase<'div.card::after', {splitOnPunctuation: true}>;
+expectType<'DIV_CARD_AFTER'>(withPunctuationSplit4);
 
 declare const withPunctuationAndNumber: ScreamingSnakeCase<'foo-bar::01'>;
 expectType<'FOO_BAR::01'>(withPunctuationAndNumber);
 
 declare const withPunctuationAndNumber2: ScreamingSnakeCase<'foo-bar::01', {splitOnNumbers: true}>;
 expectType<'FOO_BAR::_01'>(withPunctuationAndNumber2);
+
+declare const withPunctuationSplitAndNumber: ScreamingSnakeCase<'foo-bar::01', {splitOnPunctuation: true}>;
+expectType<'FOO_BAR_01'>(withPunctuationSplitAndNumber);
+
+declare const withPunctuationSplitAndNumberSplit: ScreamingSnakeCase<'foo-bar::01', {splitOnNumbers: true; splitOnPunctuation: true}>;
+expectType<'FOO_BAR_01'>(withPunctuationSplitAndNumberSplit);
