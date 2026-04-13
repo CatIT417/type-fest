@@ -1,15 +1,18 @@
 // @ts-check
+import markdown from '@eslint/markdown';
 import tseslint from 'typescript-eslint';
 import {importPathRule} from './lint-rules/import-path.js';
 import {sourceFilesExtensionRule} from './lint-rules/source-files-extension.js';
 import {requireExportedTypesRule} from './lint-rules/require-exported-types.js';
 import {requireExportRule} from './lint-rules/require-export.js';
 import {validateJSDocCodeblocksRule} from './lint-rules/validate-jsdoc-codeblocks.js';
+import {readmeJSDocSyncRule} from './lint-rules/readme-jsdoc-sync.js';
 import {jsdocCodeblocksProcessor} from './lint-processors/jsdoc-codeblocks.js';
 
-/** @type {import('xo').FlatXoConfig} */
+/** @type {Array<import('eslint').Linter.Config>} */
 const xoConfig = [
 	{
+		files: ['**/*.{js,ts}'],
 		rules: {
 			'@typescript-eslint/no-extraneous-class': 'off',
 			'@typescript-eslint/ban-ts-comment': 'off',
@@ -59,13 +62,14 @@ const xoConfig = [
 		},
 	},
 	{
-		files: 'test-d/**/*.ts',
+		files: ['test-d/**/*.ts'],
 		rules: {
 			'unicorn/no-immediate-mutation': 'off',
 			'require-unicode-regexp': 'off',
 		},
 	},
 	{
+		files: ['**/*'],
 		plugins: {
 			'type-fest': {
 				rules: {
@@ -74,6 +78,7 @@ const xoConfig = [
 					'require-exported-types': requireExportedTypesRule,
 					'require-export': requireExportRule,
 					'validate-jsdoc-codeblocks': validateJSDocCodeblocksRule,
+					'readme-jsdoc-sync': readmeJSDocSyncRule,
 				},
 				processors: {
 					'jsdoc-codeblocks': jsdocCodeblocksProcessor,
@@ -88,13 +93,13 @@ const xoConfig = [
 		},
 	},
 	{
-		files: 'source/**/*',
+		files: ['source/**/*'],
 		rules: {
 			'type-fest/source-files-extension': 'error',
 		},
 	},
 	{
-		files: 'source/**/*.d.ts',
+		files: ['source/**/*.d.ts'],
 		ignores: ['source/internal/**/*.d.ts'],
 		rules: {
 			'type-fest/require-exported-types': 'error',
@@ -104,18 +109,18 @@ const xoConfig = [
 	},
 	// Register processor for all source `.d.ts` files
 	{
-		files: 'source/**/*.d.ts',
+		files: ['source/**/*.d.ts'],
 		processor: 'type-fest/jsdoc-codeblocks',
 
 	},
 	{
 		// Virtual files created by the `jsdoc-codeblocks` processor
-		files: 'source/**/*.d.ts/*.ts',
+		files: ['source/**/*.d.ts/*.ts'],
 		...tseslint.configs.disableTypeChecked,
 	},
 	{
 		// Virtual files created by the `jsdoc-codeblocks` processor
-		files: 'source/**/*.d.ts/*.ts',
+		files: ['source/**/*.d.ts/*.ts'],
 		rules: {
 			'type-fest/source-files-extension': 'off',
 			'@stylistic/eol-last': 'off',
@@ -139,7 +144,7 @@ const xoConfig = [
 		},
 	},
 	{
-		files: 'lint-rules/test-utils.js',
+		files: ['lint-rules/test-utils.js'],
 		rules: {
 			'no-irregular-whitespace': [
 				'error',
@@ -147,6 +152,16 @@ const xoConfig = [
 					'skipComments': true,
 				},
 			],
+		},
+	},
+	{
+		files: ['readme.md'],
+		language: 'markdown/commonmark',
+		plugins: {
+			markdown,
+		},
+		rules: {
+			'type-fest/readme-jsdoc-sync': 'error',
 		},
 	},
 ];

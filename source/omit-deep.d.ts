@@ -17,7 +17,7 @@ It supports removing specific items from an array, replacing each removed item w
 
 Use-case: Remove unneeded parts of complex objects.
 
-Use [`Omit`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys) if you only need one level deep.
+Use [`Omit<T>`](https://www.typescriptlang.org/docs/handbook/utility-types.html#omittype-keys) if you only need one level deep.
 
 @example
 ```
