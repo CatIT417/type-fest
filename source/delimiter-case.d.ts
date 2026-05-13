@@ -67,12 +67,14 @@ export type DelimiterCase<
 	Delimiter extends string,
 	Options extends WordsOptions = {},
 > = Value extends string
-	? IsStringLiteral<Value> extends false
-		? Value
-		: Lowercase<RemovePrefix<DelimiterCaseFromArray<
-			Words<Value, ApplyDefaultOptions<WordsOptions, _DefaultDelimiterCaseOptions, Options>>,
-			Delimiter
-		>, string, {strict: false}>>
+	? Delimiter extends string // For distributing `Delimiter`
+		? IsStringLiteral<Value> extends false
+			? Value
+			: Lowercase<RemovePrefix<DelimiterCaseFromArray<
+				Words<Value, ApplyDefaultOptions<WordsOptions, _DefaultDelimiterCaseOptions, Options>>,
+				Delimiter
+			>, string, {strict: false}>>
+		: never
 	: Value;
 
 export {};
