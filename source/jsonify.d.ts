@@ -25,15 +25,11 @@ type JsonifyList<T extends UnknownArray> = T extends readonly []
 			? JsonValue[]
 			: Array<T[number] extends NotJsonable ? null : Jsonify<UndefinedToNull<T[number]>>>;
 
-type FilterJsonableKeys<T extends object> = {
-	[Key in keyof T]: T[Key] extends NotJsonable ? never : Key;
-}[keyof T];
-
 /**
 JSON serialize objects (not including arrays) and classes.
 */
 type JsonifyObject<T extends object> = {
-	[Key in keyof Pick<T, FilterJsonableKeys<T>>]: Jsonify<T[Key]>;
+	[Key in keyof T as T[Key] extends NotJsonable ? never : Key]: Jsonify<T[Key]>;
 };
 
 /**
